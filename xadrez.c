@@ -4,10 +4,33 @@
 // Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
 // O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
 
+
+// Função responsável pela movimentação do bispo
+// Mapeameto para sentidoVertical e sentidoHorizontal
+// Sentido Vertical: -1 para voltar casas e 1 para seguir em frente
+// Sentido Horizontal: -1 para esquerda e 1 para movimentar se a direita
+void moverBispo (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal) {
+    if (quantidadeCasas <= 5) {
+        if ((sentidoHorizontal == -1 || sentidoHorizontal == 1 ) &&
+            (sentidoVertical == -1 || sentidoVertical == 1)) {
+
+            for (int contador = 0;contador < quantidadeCasas ; contador++) {
+                printf("Sentido Vertical:%s\nSentido Horozontal:%s", (sentidoVertical == 1)?"Frente" : "Tráz", (sentidoHorizontal == 1) ? "Direita" : "Esquerda");
+            }
+
+        }else {
+            printf("Jogada Inválida!");
+        }
+        
+    }else {
+        printf("Movimento invalido!\nQuantidade de casas excedidas");
+    }
+}
+
 int main() {
     // Nível Novato - Movimentação das Peças
+    
     // Sugestão: Declare variáveis constantes para representar o número de casas que cada peça pode se mover.
-printf("");
     // Implementação de Movimentação do Bispo
     // Sugestão: Utilize uma estrutura de repetição para simular a movimentação do Bispo em diagonal.
 
