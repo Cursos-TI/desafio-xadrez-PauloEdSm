@@ -19,7 +19,9 @@ void moverBispo (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal
             }
 
         }else {
+
             printf("Jogada Inválida!");
+
         }
         
     }else {
@@ -83,6 +85,41 @@ void moverBispo (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal
             
         }
     }
+// Função responsável pela movimentação do cavalo 
+// Mapeameto para sentidoVertical e sentidoHorizontal
+// Sentido Vertical: -1 para voltar casas e 1 para seguir em frente 
+// Sentido Horizontal: -1 para esquerda e 1 para movimentar se a direita 
+
+
+
+    void moverCavalo (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal) {
+                 if (quantidadeCasas <= 3){
+
+            if ((sentidoHorizontal == -1 || sentidoHorizontal == 1 ) &&
+            (sentidoVertical == -1 || sentidoVertical == 1 )){
+
+                for (int contador = 0; contador < quantidadeCasas; contador++) {
+                
+                    printf("%s",(sentidoHorizontal == 1 || -1) ? (sentidoHorizontal == -1)? "Baixo": "Cima":"");
+
+                    for (int contadorLoopSecundario = 0; contador == 2 ; contadorLoopSecundario++){
+
+                        
+
+                    }
+                    
+                }
+                
+            }else{
+
+                printf("Jogada Inválida!");
+
+            }
+
+        }else{
+            printf("Jogada Inválida!");
+            
+        }   }
 
 int main() {
     int pecaEscolhida;
