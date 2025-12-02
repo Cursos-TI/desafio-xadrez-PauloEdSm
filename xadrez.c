@@ -1,225 +1,166 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h> // Para a função sleep (opcional: simular delay)
 
-// Desafio de Xadrez - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
-// O objetivo é utilizar estruturas de repetição e funções para determinar os limites de movimentação dentro do jogo.
+// --- Funções Auxiliares de Movimento ---
 
-
-// Função responsável pela movimentação do Bispo
-// Mapeameto para sentidoVertical e sentidoHorizontal
-// Sentido Vertical: -1 para voltar casas e 1 para seguir em frente
-// Sentido Horizontal: -1 para esquerda e 1 para movimentar se a direita
-void moverBispo (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal) {
-    if (quantidadeCasas <= 5) {
-        if ((sentidoHorizontal == -1 || sentidoHorizontal == 1 ) &&
-            (sentidoVertical == -1 || sentidoVertical == 1)) {
-
-            for (int contador = 0;contador < quantidadeCasas ; contador++) {
-            printf("");
-            }
-
-        }else {
-
-            printf("Jogada Inválida!");
-
-        }
-        
-    }else {
-        printf("Movimento invalido!\nQuantidade de casas excedidas");
+// 1. BISPO (RECURSIVIDADE OBRIGATÓRIA)
+// 5 casas na diagonal (a direcao é determinada pelo argumento)
+void moveBispoRecursivo(int passosRestantes, char direcao) {
+    
+    // ASO BASE: Atingiu o limite de passos.
+    if (passosRestantes == 0) {
+        printf("--- Bispo: Movimento finalizado. ---\n");
+        return;
     }
+    
+    // PASSO RECURSIVO: Imprime a direcao de 1 passo.
+    if (direcao == 'a') {
+        printf("Diagonal Superior Esquerda\n");
+    } else if (direcao == 'b') {
+        printf("Diagonal Superior Direita\n");
+    } else if (direcao == 'c') {
+        printf("Diagonal Inferior Esquerda\n");
+    } else { // direcao == 'd'
+        printf("Diagonal Inferior Direita\n");
+    }
+    
+    // sleep(1); // Opcional: simula o tempo de um passo
+    
+    // CHAMADA RECURSIVA: Reduz o problema (passosRestantes - 1).
+    moveBispoRecursivo(passosRestantes - 1, direcao);
 }
 
-// Função responsável pela movimentação da Torre
-// Mapeameto para sentidoVertical e sentidoHorizontal
-// Sentido Vertical: -1 para voltar casas e 1 para seguir em frente
-// Sentido Horizontal: -1 para esquerda e 1 para movimentar se a direita
-    void moverTorre (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal) {
-        if (quantidadeCasas <= 5){
-
-            if ((sentidoHorizontal == -1 || sentidoHorizontal == 1 ) &&
-            (sentidoVertical == -1 || sentidoVertical == 1)) {
-
-                for (int contador = 0; contador < quantidadeCasas; contador++) {
-
-                printf("Sentido Vertical:%s\nSentido Horozontal:%s", (sentidoVertical == 1)?"Frente" : "Tráz", (sentidoHorizontal == 1) ? "Direita" : "Esquerda");
-
-                }
-                
-            }else{
-
-                printf("Jogada Inválida!");
-
-            }
-
-        }else{
-            printf("Jogada Inválida!");
-            
-        } 
-
-    }
-
-// Função responsável pela movimentação da Rainha 
-// Mapeameto para sentidoVertical e sentidoHorizontal
-// Sentido Vertical: -1 para voltar casas e 1 para seguir em frente
-// Sentido Horizontal: -1 para esquerda e 1 para movimentar se a direita   
-    void moverRainha (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal) {
-                if (quantidadeCasas <= 4){
-
-            if ((sentidoHorizontal == -1 || sentidoHorizontal == 1 ) &&
-            (sentidoVertical == -1 || sentidoVertical == 1)) {
-
-                for (int contador = 0; contador < quantidadeCasas; contador++) {
-
-                printf("Sentido Vertical:%s\nSentido Horozontal:%s", (sentidoVertical == 1)?"Frente" : "Tráz", (sentidoHorizontal == 1) ? "Direita" : "Esquerda");
-
-                }
-                
-            }else{
-
-                printf("Jogada Inválida!");
-
-            }
-
-        }else{
-            printf("Jogada Inválida!");
-            
+// 2. TORRE (LOOP SIMPLES)
+// 5 casas na horizontal ou vertical (a direcao é determinada pelo argumento)
+void moveTorreSimples(char direcao) {
+    printf("\n--- Movimento da Torre (5 casas) ---\n");
+    for (int i = 0; i < 5; i++) {
+        if (direcao == 'a') {
+            printf("Cima\n");
+        } else if (direcao == 'b') {
+            printf("Baixo\n");
+        } else if (direcao == 'c') {
+            printf("Esquerda\n");
+        } else { // direcao == 'd'
+            printf("Direita\n");
         }
     }
-// Função responsável pela movimentação do cavalo 
-// Mapeameto para sentidoVertical e sentidoHorizontal
-// Sentido Vertical: -1 para voltar casas e 1 para seguir em frente 
-// Sentido Horizontal: -1 para esquerda e 1 para movimentar se a direita 
+    printf("--- Torre: Movimento finalizado. ---\n");
+}
 
+// 3. RAINHA (LOOP SIMPLES)
+// 8 casas (a direcao é determinada pelo argumento)
+void moveRainhaSimples(char direcao) {
+    printf("\n--- Movimento da Rainha (8 casas) ---\n");
+    
+    for (int i = 0; i < 8; i++) {
+        if (direcao == 'a') {
+            printf("Cima\n");
+        } else if (direcao == 'b') {
+            printf("Baixo\n");
+        } else if (direcao == 'c') {
+            printf("Esquerda\n");
+        } else if (direcao == 'd') {
+            printf("Direita\n");
+        } else { // Diagonais
+            printf("Diagonal\n"); // Simplificado, pois a Rainha pode mover em qualquer direção
+        }
+    }
+    printf("--- Rainha: Movimento finalizado. ---\n");
+}
 
+// 4. CAVALO (LOOPS ANINHADOS E CONDIÇÕES MÚLTIPLAS OBRIGATÓRIAS)
+// 1 vez em L (a direcao é determinada pelo argumento)
+void moveCavaloL(char direcao) {
+    printf("\n--- Movimento do Cavalo (1 L) ---\n");
 
-    void moverCavalo (int quantidadeCasas, int sentidoVertical ,int sentidoHorizontal) {
-                 if (quantidadeCasas <= 3){
-
-            if ((sentidoHorizontal == -1 || sentidoHorizontal == 1 ) &&
-            (sentidoVertical == -1 || sentidoVertical == 1 )){
-
-                for (int contador = 0; contador < quantidadeCasas; contador++) {
-                
-                    printf("%s",(sentidoHorizontal == 1 || -1) ? (sentidoHorizontal == -1)? "Baixo": "Cima":"");
-
-                    for (int contadorLoopSecundario = 0; contador == 2 ; contadorLoopSecundario++){
-
-                        
-
-                    }
-                    
-                }
-                
-            }else{
-
-                printf("Jogada Inválida!");
-
-            }
-
-        }else{
-            printf("Jogada Inválida!");
+    // i: Representa o deslocamento no primeiro eixo (1 ou 2 casas)
+    // j: Representa o deslocamento no segundo eixo (1 ou 2 casas)
+    for (int i = 1; i <= 2; i++) {
+        for (int j = 1; j <= 2; j++) {
             
-        }   }
+            // CONDIÇÃO MÚLTIPLA: Verifica se é um movimento 'L' (1+2 ou 2+1)
+            if (i + j != 3) {
+                continue; // Pula combinações inválidas (ex: 1,1 ou 2,2)
+            }
+            
+            // Se chegou aqui, é um movimento L válido (i=2, j=1 OU i=1, j=2)
+            
+            // Imprime a sequência de passos que forma o 'L' na direcao escolhida
+            if (direcao == 'a') { // Cima/Direita (i=Cima, j=Direita)
+                printf("%s\n%s\n%s\n", (i == 2 ? "Cima" : "Direita"), (i == 2 ? "Cima" : "Direita"), (i == 2 ? "Direita" : "Cima"));
+            } else { // Exemplo simplificado para outras direcoes (apenas imprime o padrao 2+1)
+                 printf("Movimento L na direcao: %c\n", direcao);
+            }
+            
+            return; // Encerra a função após o primeiro movimento válido (1 vez)
+        }
+    }
+    printf("--- Cavalo: Movimento finalizado. ---\n");
+}
+
+// --- Função Main (Estrutura Original Adaptada) ---
 
 int main() {
-    int pecaEscolhida;
-    int contador;
-    int quantidadeCasas;
-    int sentidoHorizontal;
-    int sentidoVertical;
-        do {
+    int opcaoMenu = 0;
+    char direcao;
+
+    do {
+        printf("\n===================================\n");
+        printf("        DESAFIO NÍVEL MESTRE       \n");
+        printf("===================================\n");
+        printf("1. Mover Bispo (Recursivo)\n");
+        printf("2. Mover Torre (Loop Simples)\n");
+        printf("3. Mover Rainha (Loop Simples)\n");
+        printf("4. Mover Cavalo (Loops Aninhados)\n");
+        printf("5. Sair\n");
+        printf("Selecione uma peca (1-5): ");
+        scanf("%d", &opcaoMenu);
+
+        switch (opcaoMenu) {
+            case 1: // BISPO
+                printf("\nEscolha a direção para o Bispo (5 casas):\n");
+                printf("[a] Superior Esquerda\n[b] Superior Direita\n[c] Inferior Esquerda\n[d] Inferior Direita\n");
+                printf("Direção: ");
+                scanf(" %c", &direcao);
+                printf("\n--- Movimento do Bispo (5 casas) ---\n");
+                moveBispoRecursivo(5, direcao);
+                break;
+            
+            case 2: // TORRE
+                printf("\nEscolha a direção para a Torre (5 casas):\n");
+                printf("[a] Cima\n[b] Baixo\n[c] Esquerda\n[d] Direita\n");
+                printf("Direção: ");
+                scanf(" %c", &direcao);
+                moveTorreSimples(direcao);
+                break;
+                
+            case 3: // RAINHA
+                printf("\nEscolha a direção para a Rainha (8 casas):\n");
+                printf("Use 'a' para Cima, 'b' para Baixo, 'c' para Esquerda, 'd' para Direita, 'e' para Diagonal:\n");
+                printf("Direção: ");
+                scanf(" %c", &direcao);
+                moveRainhaSimples(direcao);
+                break;
+
+            case 4: // CAVALO
+                printf("\nEscolha a direção para o Cavalo (1 L):\n");
+                printf("[a] Cima/Direita\n[b] Cima/Esquerda\n[c] Baixo/Direita\n[d] Baixo/Esquerda\n");
+                printf("Direção: ");
+                scanf(" %c", &direcao);
+                moveCavaloL(direcao);
+                break;
+
+            case 5:
+                printf("Saindo do programa. Até mais!\n");
+                break;
+
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+        }
         
-            //Solicitação para que o usuário selecione a peça a ser movida
-        printf("1 - Peão\n2 - Bispo\n3 - Cavalo\n4 - Torre\n5 - Rainha\n6 - Rei");
-        printf("Peça a ser movida\n->");
-        scanf("%d", &pecaEscolhida);
-            
-        printf("-----------------------Tabela de Tradutora-------------------\n");
-        printf("|-----------------------------------------------------------|\n");
-        printf("|Sentido Horizontal |     1     |     -1    |       0       |\n");
-        printf("|    --------       |  Esquerda |  Direita  |     Nulo      |\n");
-        printf("|-----------------------------------------------------------|\n");
-        printf("|Sentido Vertical   |     1     |     -1    |       0       |\n");
-        printf("|     -------       |  Frente   |    Tráz   |     Nulo      |\n");
-        printf("-------------------------------------------------------------\n");
-            //Filtragem com if para identificação de que peça foi selecionada
-            
-            //1 - Peão 
-            if (pecaEscolhida == 1) {
-                ;
-            }
-
-            //2 - Bispo
-            if (pecaEscolhida == 2) {
-                printf("Quantidade de casas\n->");
-                scanf("%s", &quantidadeCasas);
-
-                printf("Sentido Horizontal\n->");
-                scanf("%d", &sentidoHorizontal);
-
-                printf("Sentido Vertical\n->");
-                scanf("%d", &sentidoVertical);
-
-                moverBispo(quantidadeCasas, sentidoVertical, sentidoHorizontal);
-            }
-            
-            //3 - Cavalo
-            if (pecaEscolhida == 3) {
-                ;
-            }
-            
-            //4 - Torre
-            if (pecaEscolhida == 4) {
-   
-                printf("Quantidade de casas\n->");
-                scanf("%s", &quantidadeCasas);
-
-                printf("Sentido Horizontal\n->");
-                scanf("%d", &sentidoHorizontal);
-
-                printf("Sentido Vertical\n->");
-                scanf("%d", &sentidoVertical);
-
-                moverTorre(quantidadeCasas,sentidoVertical,sentidoHorizontal);
-            }
-            
-            //5 - Rainha 
-            if (pecaEscolhida == 5) {
-                printf("Sentido Horizontal\n->");
-                scanf("%d", &sentidoHorizontal);
-
-                printf("Sentido Vertical\n->");
-                scanf("%d", &sentidoVertical);
-
-               moverRainha(quantidadeCasas, sentidoVertical, sentidoHorizontal);
-            }
-            
-            //6 - Rei
-            if (pecaEscolhida == 6) {
-                ;
-            }
-            
-
-
-        } while (quantidadeCasas <= contador);
-        
-
-    // Implementação de Movimentação da Torre
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Torre para a direita.
-
-    // Implementação de Movimentação da Rainha
-    // Sugestão: Utilize uma estrutura de repetição para simular a movimentação da Rainha para a esquerda.
-
-    // Nível Aventureiro - Movimentação do Cavalo
-    // Sugestão: Utilize loops aninhados para simular a movimentação do Cavalo em L.
-    // Um loop pode representar a movimentação horizontal e outro vertical.
-
-    // Nível Mestre - Funções Recursivas e Loops Aninhados
-    // Sugestão: Substitua as movimentações das peças por funções recursivas.
-    // Exemplo: Crie uma função recursiva para o movimento do Bispo.
-
-    // Sugestão: Implemente a movimentação do Cavalo utilizando loops com variáveis múltiplas e condições avançadas.
-    // Inclua o uso de continue e break dentro dos loops.
+    } while (opcaoMenu != 5);
 
     return 0;
 }
